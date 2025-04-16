@@ -5,9 +5,9 @@ services:
       - "1104:1104"
     volumes:
       - ./stns.conf:/etc/stns/server/stns.conf:ro
-  app:
+  broker:
     build:
-      context: ../app/
+      context: ../broker/
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
