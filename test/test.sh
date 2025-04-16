@@ -12,7 +12,17 @@ function EXPECT_EQ () {
 
 cd "$(dirname "$0")"
 docker compose up -d --build
-sleep 10
+
+# wait for the server to start
+echo -n "Waiting for the server to start."
+while
+  STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/)
+  [ "$STATUS_CODE" != "200" ]
+do
+  sleep 1
+  echo -n "."
+done
+printf '\033[32m%s\033[m\n' 'OK'
 
 echo -n "Testing correct username and public key... "
 RESULT=$(
