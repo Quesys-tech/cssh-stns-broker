@@ -20,7 +20,7 @@ class ContainerSSHpublicKeyResponse(BaseModel):
 
 
 class Settings(BaseSettings):
-    stns_url: str = "http://stns:1104"
+    stns_url: str = "http://localhost:1104"
 
 
 logger = getLogger(__name__)
