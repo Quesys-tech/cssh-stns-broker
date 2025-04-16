@@ -37,7 +37,7 @@ async def handle_pubkey(request: ContainerSSHpublicKeyRequest):
         try:
             query = f"{settings.stns_url}/v1/users?name={request.username}"
             logger.info(f"Querying STNS server: {query}")
-            response = await client.get(query)            
+            response = await client.get(query)
             if response.status_code == 200:
                 keys = response.json()[0]["keys"]
                 key_matched = request.publicKey in keys
@@ -55,3 +55,12 @@ async def handle_pubkey(request: ContainerSSHpublicKeyRequest):
         success=key_matched,
         username=request.username,
     )
+
+
+class HealthCheckResponse(BaseModel):
+    status: str
+
+
+@app.get("/", response_model=HealthCheckResponse)
+async def health_check():
+    return HealthCheckResponse(status="ok")
