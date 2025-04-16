@@ -1,0 +1,17 @@
+services:
+  stns:
+    image: stns/stns:latest
+    ports:
+      - "1104:1104"
+    volumes:
+      - ./stns.conf:/etc/stns/server/stns.conf:ro
+  app:
+    build:
+      context: ../app/
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - stns
+    environment:
+      - STNS_URL=http://stns:1104
